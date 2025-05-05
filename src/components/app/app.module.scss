@@ -1,5 +1,18 @@
 .container {
-  max-width: 1280px;
+  max-width: 750px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 20px 40px;
+}
+
+.header {
+  color: var(--black);
+  font-size: 26px;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 0 4px 4px rgba(56, 37, 37, 0.25);
+}
+
+.note-list {
+  max-width: 520px;
+  margin: 0 auto;
 }
