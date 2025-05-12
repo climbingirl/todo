@@ -1,37 +1,35 @@
-import { useEffect, useState } from 'react';
 import styles from './app.module.scss';
-import { NoteModel } from '../../types';
-import Note from '../note/note';
+import TodoItem from '../todoItem/todoItem';
 import Loader from '../loader/loader';
+import { useDebouncedRequestSearchTodo, useRequestGetTodos } from '../../hooks';
+import AddTodo from '../addTodo/addTodo';
+import { useState } from 'react';
+import Search from '../search/search';
 
 const App = () => {
-  const [todos, setTodos] = useState<NoteModel[] | []>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/todos');
-        const notes: NoteModel[] = await response.json();
-        setTodos(notes);
-      } catch (error) {
-        console.error('Loading data:', error);
-      }
-      setIsLoading(false);
-    };
-
-    fetchTodos();
-  }, []);
+  const { todos, setTodos, isLoading } = useRequestGetTodos();
+  const { isSearching, requestSearchTodos } = useDebouncedRequestSearchTodo(setTodos);
+  const [isSort, setIsSort] = useState(false);
+  const displayTodos = isSort
+    ? [...todos].sort((a, b) => a.title.localeCompare(b.title))
+    : todos;
 
   return (
     <div className={styles.container}>
+      <Search requestSearchTodos={requestSearchTodos} />
       <h1 className={styles.header}>TODO LIST</h1>
-      {isLoading ? (
+      <div className={styles['tool-bar']}>
+        <AddTodo setTodos={setTodos} />
+        <button onClick={() => setIsSort((prev) => !prev)}>
+          {isSort ? 'ASC ▼' : 'ASC ▲'}
+        </button>
+      </div>
+      {isLoading || isSearching ? (
         <Loader />
       ) : (
-        <div className={styles['note-list']}>
-          {todos.map((todo) => (
-            <Note key={todo.id} {...todo} />
+        <div className={styles['todo-list']}>
+          {displayTodos.map((todo) => (
+            <TodoItem key={todo.id} todo={todo} setTodos={setTodos} />
           ))}
         </div>
       )}

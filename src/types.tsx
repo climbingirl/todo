@@ -1,6 +1,4 @@
-export interface NoteModel {
-  userId: number;
+export interface TodoModel {
   id: number;
   title: string;
-  completed: boolean;
 }
