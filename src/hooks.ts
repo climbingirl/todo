@@ -55,8 +55,8 @@ export const useRequestDeleteTodo = (
   const requestDeleteTodod = async (id: number) => {
     try {
       setIsDeleting(true);
-      const deletedTodoId = await todoApi.deleteTodo(id);
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== deletedTodoId));
+      await todoApi.deleteTodo(id);
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
     } catch (error) {
       console.error('Error:', error);
     } finally {
