@@ -13,8 +13,10 @@ const AddTodo = ({ setTodos }: AddTodoProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    requestAddTodo({ title });
-    setTitle('');
+    if (title.trim().length) {
+      requestAddTodo({ title });
+      setTitle('');
+    }
   };
 
   return (

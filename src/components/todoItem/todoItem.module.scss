@@ -5,7 +5,11 @@
   column-gap: 15px;
 }
 
-.content,
+.content {
+  max-width: 370px;
+  width: 100%;
+}
+
 .input {
   width: 100%;
 }
