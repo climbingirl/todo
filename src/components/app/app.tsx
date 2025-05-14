@@ -9,8 +9,8 @@ import Search from '../search/search';
 const App = () => {
   const { todos, setTodos, isLoading } = useRequestGetTodos();
   const { isSearching, requestSearchTodos } = useDebouncedRequestSearchTodo(setTodos);
-  const [isSort, setIsSort] = useState(false);
-  const displayTodos = isSort
+  const [isSortedAsc, setIsSortedAsc] = useState(false);
+  const sortedTodos = isSortedAsc
     ? [...todos].sort((a, b) => a.title.localeCompare(b.title))
     : todos;
 
@@ -20,18 +20,20 @@ const App = () => {
       <h1 className={styles.header}>TODO LIST</h1>
       <div className={styles['tool-bar']}>
         <AddTodo setTodos={setTodos} />
-        <button onClick={() => setIsSort((prev) => !prev)}>
-          {isSort ? 'ASC ▼' : 'ASC ▲'}
+        <button onClick={() => setIsSortedAsc((prev) => !prev)}>
+          {isSortedAsc ? 'ASC ▼' : 'ASC ▲'}
         </button>
       </div>
       {isLoading || isSearching ? (
         <Loader />
-      ) : (
+      ) : sortedTodos.length ? (
         <div className={styles['todo-list']}>
-          {displayTodos.map((todo) => (
+          {sortedTodos.map((todo) => (
             <TodoItem key={todo.id} todo={todo} setTodos={setTodos} />
           ))}
         </div>
+      ) : (
+        <div className={styles['empty-list']}>You have no tasks</div>
       )}
     </div>
   );
