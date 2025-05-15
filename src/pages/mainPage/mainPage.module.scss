@@ -1,0 +1,23 @@
+.header {
+  color: var(--black);
+  font-size: 26px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.tool-bar {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin: 30px 0;
+}
+
+.todo-list {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.empty-list {
+  text-align: center;
+  margin-top: 50px;
+}

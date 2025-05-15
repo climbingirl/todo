@@ -52,7 +52,7 @@ export const useRequestDeleteTodo = (
 ) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const requestDeleteTodod = async (id: number) => {
+  const requestDeleteTodo = async (id: number) => {
     try {
       setIsDeleting(true);
       await todoApi.deleteTodo(id);
@@ -64,7 +64,7 @@ export const useRequestDeleteTodo = (
     }
   };
 
-  return { isDeleting, requestDeleteTodod };
+  return { isDeleting, requestDeleteTodo };
 };
 
 export const useRequestAddTodo = (
@@ -111,4 +111,27 @@ export const useDebouncedRequestSearchTodo = (
   };
 
   return { isSearching, requestSearchTodos };
+};
+
+export const useRequestGetTodo = (id: number) => {
+  const [todo, setTodo] = useState<TodoModel>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchTodo = async () => {
+      try {
+        setIsLoading(true);
+        const todo = await todoApi.getTodo(id);
+        setTodo(todo);
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTodo();
+  }, [id]);
+
+  return { todo, setTodo, isLoading };
 };
